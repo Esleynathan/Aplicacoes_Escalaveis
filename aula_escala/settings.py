@@ -111,15 +111,29 @@ TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
 
-USE_L10N = True
-
 USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = '/static/'
+DEFAULT_FILE_STORAGE = 'aula_escala.gcloud.GoogleCloudMediafileStorage'
+STATICFILES_STORAGE = 'aula_escala.gcloud.GoogleCloudStaticFileStorage'
+
+GS_PROJECT_ID = 'pythonando-'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'templates/static'),)
+GS_STATIC_BUCKET_NAME = 'teste_alunos_pythonando'
+
+STATIC_URL = 'https://storage.googleapis.com/{}/'.format(GS_STATIC_BUCKET_NAME)
+STATIC_ROOT = "static/"
+
+GS_MEDIA_BUCKET_NAME = 'teste_alunos_pythonando_media'
+MEDIA_URL = 'https://storage.googleapis.com/{}/'.format(GS_MEDIA_BUCKET_NAME)
+MEDIA_ROOT = "media/"
+
+from google.oauth2 import service_account
+GS_CREDENTIALS = service_account.Credentials.form_service_account_file(os.path.join(BASE_DIR, 'credenndial.json'))
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
